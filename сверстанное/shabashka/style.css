@@ -1,0 +1,324 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{color: #444241}
+/* links */
+a:visited, a {
+    color: #444241;
+}
+.pageShell{
+    width: 100%;
+}
+
+.header, .footer{
+    width: 100%;
+    height: 80px;
+    background-color: #ffff66;
+}
+.msgInfo {
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    padding-top: 15px;
+    background-color: #ffffcc;
+}
+.msgInfo>div:first-child {
+    width: 990px;
+    margin: auto;
+}
+.msgInfo>div p:first-child{
+    font-size: 18px;
+}
+
+.fCnt {
+    width: 1100px;
+    text-align: center;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.hCnt {
+    width: 1100px;
+    height: 80px;
+    margin: auto;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+.hCnt>div{
+    width: 275px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+.hCnt div:first-child {
+    /*padding-right: 70px;*/
+    text-align: left;
+}
+.hCnt div:last-child {
+    text-align: right;
+    width: 540px;
+}
+
+.sliderShell{
+    box-sizing: border-box;
+    padding: 5px 0;
+    border-top: 2px solid #cecece;
+    border-bottom: 2px solid #cecece;
+    width: 990px;
+    margin: 30px auto 0 auto;
+}
+.sliderShell>div{display: inline-block; vertical-align: middle}
+.sliderShell .sliderArrow {
+    width: 30px;
+    height: 93px;
+}
+.sliderShell div.sliderArrow:first-child {
+    background-image: url('img/sliderArrows.png');
+    background-position: -30px 0;
+}
+.sliderShell div.sliderArrow:first-child:hover {
+    background-image: url('img/sliderArrows.png');
+    background-position: 0 0;
+    cursor: pointer;
+}
+.sliderShell div.sliderArrow:last-child {
+    background-image: url('img/sliderArrows.png');
+    background-position: -60px 0;
+}
+.sliderShell div.sliderArrow:last-child:hover {
+    background-image: url('img/sliderArrows.png');
+    background-position: -90px 0;
+    cursor: pointer;
+}
+.sliderShell .sliderCnt {
+    width: 929px;
+    box-sizing: border-box;
+    padding: 0 17px;
+    /*height: 93px;*/
+    overflow: hidden;
+}
+.sliderShell .sliderCnt .item1{
+    background-color: #fafafa;
+    padding: 10px 13px;
+    display: inline-block;
+    margin: 0 2px;
+    font-size: 12px;
+    width: 219px;
+    overflow: hidden;
+    line-height: 14px;
+    box-sizing: border-box;
+}
+.sliderShell .sliderCnt .item1:hover, .sliderItem2:hover {
+    /*border: 1px solid #777777;*/
+    cursor: pointer;
+    background-color: #faebcc;
+}
+.sliderShell .sliderCnt .item1 p:first-child{
+    text-align: left;
+    color:#cccc00;
+    font-size: 14px;
+}
+.sliderShell .sliderCnt .item1 p:last-child{
+    text-align: right;
+    color:#cccc00;
+    font-size: 14px;
+}
+
+/* categories blocks (mainPage)*/
+.catItem{
+    width: 285px;
+    /*float: left;*/
+    /*position: relative;*/
+}
+.catItem:hover {
+  /*  border: 3px solid #ffff66;
+    border-radius: 5px;*/
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(255, 255, 102, 0.97);
+    -moz-box-shadow:    0px 0px 20px 0px rgba(255, 255, 102, 0.97);
+    box-shadow:         0px 0px 20px 0px rgba(255, 255, 102, 0.97);
+}
+
+.catItem div:last-child{
+    position: absolute;
+    display: none;
+    width: 285px;
+    box-sizing: border-box;
+    padding: 7px;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(255, 255, 102, 0.97);
+    -moz-box-shadow:    0px 0px 20px 0px rgba(255, 255, 102, 0.97);
+    box-shadow:         0px 0px 20px 0px rgba(255, 255, 102, 0.97);
+}
+/*.catItem:hover .catItem div:last-child {*/
+    /*display: block;*/
+    /*background-color: #fff;*/
+/*}*/
+
+.catItem>div:first-child {
+    text-align: center;
+    overflow: hidden;
+    height: 104px;
+}
+.catItem .catName {
+    background-color: #ffff66;
+    height: 40px;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+
+table.catShell{
+    border-collapse: separate; /* Способ отображения границы */
+    border-spacing: 15px 50px; /* Расстояние между ячейками */
+    margin: 0 auto 0 auto;
+}
+
+.sliderItem2{
+    width: 219px;
+    background-color: #fafafa;
+    text-align: center;
+    overflow: hidden;
+    /*height: 192px;*/
+    box-sizing: border-box;
+    padding: 16px 10px;
+    display: inline-block;
+
+}
+
+.sliderItem2 p {margin:0; padding: 0;}
+.sliderItem2 p.masterName{color:#cccc00; font-size: 14px;}
+.sliderItem2 p.masterCat{font-size: 12px;}
+/*.sliderItem2 p.masterCat{font-size: 12px;}*/
+
+.regForm,.authForm {
+    width: 570px;
+    margin: 40px auto;
+}
+
+.cnt990 {
+    width: 990px;
+    margin: auto;
+}
+.cnt800 {
+    width: 800px;
+    margin: auto;
+}
+.searchForm {
+    box-sizing: border-box;
+    padding: 10px 13px 0;
+    margin: 0;
+}
+.searchForm .formLine2{margin-top: 15px}
+.searchForm .formLine2 p{
+    display: inline-block;
+    width: 49.5%;
+}
+.formLine2 p a{color:#006dcc;}
+
+.searchResultShell{
+    border-bottom: 2px solid #d1d1c2;
+    border-top: 2px solid #d1d1c2;
+    padding: 20px 0;
+}
+.resBlock1{
+    width: 930px;
+    height: 115px;
+    margin:auto;
+    border-bottom: 1px solid #e4e4e4;
+    box-sizing: border-box;
+    padding: 10px 0;
+    overflow: hidden;
+}
+.resBlock1:hover, .resBlock2:hover {
+    cursor: pointer;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
+
+.resBlock1>div,.resBlock2>div{
+    display: inline-block;
+    height: 94px;
+    vertical-align: middle;
+}
+
+.resLfPart{
+    width: 130px;
+    text-align: right;
+}
+.resMidPart{
+    width: 620px;
+    font-size: 12px;
+    padding: 0 20px;
+}
+.resRtPart{width: 130px}
+.resStatus {height: 60px}
+.resPrice {font-size: 18px; color: #7aba7b}
+.resOrdName {height: 45px; font-weight: bold;}
+.resOrdInf{font-size: 12px}
+
+
+.formLine1 div:first-child{
+    float: left;
+}
+.formLine1 div:last-child{
+    float: right;
+}
+
+.resBlock2{
+    width: 930px;
+    height: 165px;
+    margin:auto;
+    border-bottom: 1px solid #e4e4e4;
+    box-sizing: border-box;
+    padding: 10px 0;
+    overflow: hidden;
+}
+.resBlock2 .resLfPart,
+.resBlock2 .resRtPart{
+    text-align: center;
+}
+.resRtPart p:last-child{
+    color: #7aba7b;
+}
+.resBlock2 .resRtPart .resRaiting {
+    height: 40px;
+}
+.cntShell{min-height: 463px}
+
+/* employe card */
+.cardShell {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.cardShell>div{
+    display: inline-block;
+    vertical-align: middle;
+    height: 145px;
+}
+.cardShell .cardLfPart {
+    width: 140px;
+    text-align: center;
+}
+.cardShell .cardMidPart {width: 470px;}
+.cardShell .cardMidPart div:first-child{height: 120px;}
+.cardShell .cardRtPart {width: 160px;}
+
+/* order page style */
+.orderShell {
+    background-color: #ffffcc;
+    border-radius: 15px;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    margin: 30px auto;
+}
+.orderShell .genInfo>div{
+    display: inline-block;
+    height: 130px;
+    vertical-align: middle;
+}
+.orderShell .genInfo div:first-child{
+    width: 140px;
+    text-align: center;
+}
+.orderShell .genInfo div:last-child{width: 590px;}
