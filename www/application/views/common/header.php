@@ -9,6 +9,8 @@
 
     <script src="<?php echo base_url('js/jquery_min.js')?>"></script>
 
+    <script type="text/javascript" src="js/login.js"></script>
+
 </head>
 <body>
 <div class="pageShell">
@@ -31,12 +33,25 @@
                             echo "<a href=\"" . site_url('login/logout') . "\">Выход</a>";
                         }
                     } else {
-                        echo "<a href=\"" . site_url('login') . "\">Вход</a> &nbsp;&nbsp;&nbsp;&nbsp";
+                        echo
+                            "<a href='#' id='togglePopup'>Войти</a>
+                            <div class='login_popup' id='popup'>
+                                <label>
+                                    <span class='login_popup_lbl'>Логин:</span>
+                                    <input type='text' name='login'/>
+                                </label>
+                                <label>
+                                    <span class='login_popup_lbl'>Пароль:</span>
+                                    <input type='password' name='pass'/>
+                                </label>
+                                <div style='text-align: center'>
+                                    <button type='submit' class='btn btn-success'>Войти</button>
+                                </div>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp";
+                        //"<a href=\"" . site_url('login') . "\">Вход</a> &nbsp;&nbsp;&nbsp;&nbsp";
                         echo "<a href=\"" . site_url('registration') . "\">Регистрация</a>";
                     }
                 ?>
-
-
             </div>
         </div>
     </div>

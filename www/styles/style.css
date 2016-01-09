@@ -427,6 +427,20 @@ table.catShell{
     width: 150px;
 }
 
-.yellowLineBottom {
-    border-bottom: 1px solid #ffff00;
+.login_popup {
+    background: #ffff66;
+    border: 1px solid #c0c0c0;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.35);
+    display: none;
+    position: absolute;
+    right: 20px;
+    padding: 0;
+    top: 50px;
+    width: 300px;
 }
+
+.login__popup_lbl{
+    position: inherit;
+    margin: 25px;
+}
+
