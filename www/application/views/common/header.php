@@ -4,6 +4,7 @@
     <title>Шабашка - интернет портал объявлений о подработках</title>
     <meta charset="utf-8"/>
     <?php echo link_tag('styles/bootstrap/css/bootstrap.min.css')?>
+    <?php echo link_tag('styles/bootstrap/js/bootstrap.min.js')?>
     <?php echo link_tag('styles/style.css') ?>
 
     <script src="<?php echo base_url('js/jquery_min.js')?>"></script>
@@ -26,7 +27,7 @@
                     if (isset($_SESSION['login'])) {
                         if ($_SESSION['login'] == 'true') {
                             echo "<a href=\"" . site_url('acount') . "\" sytle=\"\"> <i class=\"icon-user\"></i> " .
-                                $_SESSION['name'] . "</a> &nbsp;&nbsp;&nbsp;&nbsp";
+                                $_SESSION['name'] . "</a> &nbsp;&nbsp;&nbsp;&nbsp;";
                             echo "<a href=\"" . site_url('login/logout') . "\">Выход</a>";
                         }
                     } else {

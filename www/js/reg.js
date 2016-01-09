@@ -88,7 +88,7 @@ $(document).ready(function() {
 
   /* отправка данных на сервер для регистрации */
   function sendRegistrationData(sendData) {
-    document.getElementById('sendBtn').innerHTML = 'подождите <img src="../img/loaderMini.gif"/>';
+    document.getElementById('sendBtn').innerHTML = 'подождите <img src="../img/loaderMini.png"/>';
     $.ajax({
       method: 'post',
       dataType: "text",

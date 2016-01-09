@@ -36,11 +36,25 @@ class Jobs extends CI_Controller{
     public function show($id) {
         $this->load->view("common/header");
         $advertInfo = $this->adverts->getAdvert($id);
+
+        /* если пользователь не владелец объявления, то проверяем подал ли заявку этот пользователь */
+        if(isset($_SESSION['id'])) {
+            $advertInfo['sessionInfo']['isOwner'] =
+                ($_SESSION['id'] == $advertInfo['ownerData'][0]['id']) ? true : false;
+
+            if (! $advertInfo['sessionInfo']['isOwner']) {
+                $bidInfo = $this->adverts->hasBid($_SESSION['id'], $id);
+                if ($bidInfo) {
+                    $advertInfo['sessionInfo']['bidInfo'] = $bidInfo;
+                }
+            }
+        }
+
         /*
         echo '<pre>';
         print_r($advertInfo);
-        echo '</pre>';*/
-
+        echo '</pre>';
+        */
         $this->load->view('advertPage',$advertInfo);
         $this->load->view("common/footer");
     }

@@ -22,19 +22,19 @@
         <div class="control-group">
             <label class="control-label" for="inputSkype">Skype</label>
             <div class="controls">
-                <input type="text" name="Skype" id="inputSkype" placeholder="Skype" required="" value="<?php echo $userData['Skype']?>"><span></span><br/><span></span>
+                <input type="text" name="Skype" id="inputSkype" placeholder="Skype"  value="<?php echo $userData['Skype']?>"><span></span><br/><span></span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="inputICQ">ICQ</label>
             <div class="controls">
-                <input type="text" name="icq" id="inputICQ" placeholder="ICQ" required="" value="<?php echo $userData['icq']?>"><span></span><br/><span></span>
+                <input type="text" name="icq" id="inputICQ" placeholder="ICQ" value="<?php echo $userData['icq']?>"><span></span><br/><span></span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="inputPhone">номер тел.</label>
             <div class="controls">
-                <input type="text" name="phone" id="inputPhone" placeholder="" required="" value="<?php echo $userData['phone']?>"><span></span><br/><span></span>
+                <input type="text" name="phone" id="inputPhone" placeholder="" value="<?php echo $userData['phone']?>"><span></span><br/><span></span>
             </div>
         </div>
 

@@ -426,3 +426,7 @@ table.catShell{
 .advCatAndOwner div:first-child {
     width: 150px;
 }
+
+.yellowLineBottom {
+    border-bottom: 1px solid #ffff00;
+}

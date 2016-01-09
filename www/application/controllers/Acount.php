@@ -184,7 +184,7 @@ class Acount extends CI_Controller {
         );
         $this->user->updateInfo($data);
 
-        redirect('/acount/editProfile');
+        redirect('/acount');
     }
 
     public function mycard() {
@@ -204,8 +204,15 @@ class Acount extends CI_Controller {
     }
 
     public function bids() {
+        $bids = array();
+        if ($_SESSION['type'] == 0 or $_SESSION['type'] == 2) {
+            $bids['cutomerBids'] = $this->user->getUserCustomerBids($_SESSION['id']);
+        }
 
-        $bids = $this->user->getUserCustomerBids($_SESSION['id']);
+        if ($_SESSION['type'] == 1 or $_SESSION['type'] == 2) {
+            $bids['masterBids'] = $this->user->getUserMasterBids($_SESSION['id']);
+        }
+
         $data = array(
             'bids' => $bids,
             'viewName' => 'bidsList'
@@ -258,5 +265,31 @@ class Acount extends CI_Controller {
         redirect('/acount');
     }
 
+    public function subscribeToBid() { // ajaxHandler
+        $advId = $_POST['advID'];
+        unset($_POST['advID']);
+        $this->load->model('adverts','adv', TRUE);
+        $advInf = $this->adv->getAdvertInfById($advId, 'id_customer');
+        $params = array(
+            'id_usr'       => $_SESSION['id'],
+            'id_ordr'      => $advId,
+            'id_ord_owner' => $advInf['id_customer'],
+            'date'         => date('Y-m-d')
+        );
+        $InsertedBidId = $this->user->subscribeToAdvert($params);
 
+        if ($InsertedBidId) {
+            $bidId = $InsertedBidId;
+            $this->load->view('forms/unsubscribeToBidForm', array('bidId' => $bidId));
+        } else {
+            $this->load->view('errorString');
+        }
+
+    }
+
+    public function unsubscribeBid() {
+        $id = $_POST['bidId'];
+        unset($_POST['bidId']);
+        $this->user->deleteBid($id);
+    }
 } 

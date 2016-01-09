@@ -64,7 +64,7 @@ class Adverts extends CI_Model{
 
     public function getAdvert($idAdvert)
     { //Для страницы подробного просмотра заказа
-        $q = $this->db->select(array('title', 'text', 'price'))
+        $q = $this->db->select(array('title', 'text', 'price', 'id'))
             ->from('order')
             ->where('id =', $idAdvert)->get();
         $mas["body"] = $q->result_array();
@@ -106,7 +106,27 @@ class Adverts extends CI_Model{
 
         return $mas;
     }
-	
+
+    public function hasBid($uid, $orderId) {
+        $q = $this->db->select('bid.id, bid.date')
+            ->from('bid')
+            ->where('id_usr =', $uid)
+            ->where('id_ordr =', $orderId)
+            ->get();
+        $res = $q->result_array();
+        if (count($res) > 1) throw new Exception('the many results of hasBid query');
+        if (empty($res)) {
+            return false;
+        } else {
+            return $res;
+        }
+        /*
+        echo '<pre>';
+            print_r($res);
+        echo '</pre>';
+        */
+    }
+
 	public function setAdvert ($advertData){
         $d = new DateTime('now');
         $data = array(
@@ -213,4 +233,17 @@ class Adverts extends CI_Model{
         return $this->db->limit($count)->get()->result_array();
     }
 
+    function getAdvertInfById($advertId, $fields = '*') {
+        $q = $this->db->select($fields)
+            ->from('order')
+            ->where('id =', $advertId)
+            ->get();
+        $res = $q->result_array();
+        if(count($res) > 1) {
+            throw new Exception("one of result expected");
+        }
+        if (count($res) == 1) {
+            return $res[0];
+        }
+    }
 }

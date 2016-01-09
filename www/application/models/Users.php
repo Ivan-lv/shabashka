@@ -194,9 +194,9 @@ class Users extends CI_Model{
 
     public function updateInfo($data) {
 
-        echo '<pre>';
+/*        echo '<pre>';
         print_r($data);
-        echo '</pre>';
+        echo '</pre>';*/
         $this->db
             ->where('id=', $_SESSION['id'])
             ->update('user', $data);
@@ -267,6 +267,20 @@ class Users extends CI_Model{
         return $this->db->get()->result_array();
     }
 
+    public function getUserMasterBids($uid) {
+        $this->db
+            ->select(array('bid.date', 'order.id as orderID', 'order.title', 'bid.id as bidID', 'bid.id_ord_owner'))
+            ->from(array('bid', 'order'))
+            ->where('order.id = bid.id_ordr')
+            ->where('bid.id_usr', $uid);
+        $r = $this->db->get()->result_array();
+/*        echo '<pre>';
+        print_r($r);
+        echo '</pre>';*/
+        return $r;
+
+    }
+
     public function getUserCustomerComments($userid, $count = 10, $sortBy = 'date') {
 
         $this->db->distinct()
@@ -332,5 +346,17 @@ class Users extends CI_Model{
         $mas["CommentBody"] = $this->db->get()->result_array();
 
         return $mas;
+    }
+
+    //подача заявки пользователем
+    function subscribeToAdvert($params) {
+        $this->db->insert('bid', $params);
+        $lastId = $this->db->insert_id();
+        return $lastId;
+    }
+
+    // отписка от заявки
+    function deleteBid($id) {
+        $this->db->delete('bid', array('id' => $id));
     }
 }

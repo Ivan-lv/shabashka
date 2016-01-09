@@ -9,7 +9,9 @@
 class Test extends CI_Controller {
 
     public  function index() {
-        $this->load->view("v1");
+        if (1) {
+            echo 'false';
+        }
 
 
     }
