@@ -4,10 +4,10 @@
     <title>Шабашка - интернет портал объявлений о подработках</title>
     <meta charset="utf-8"/>
     <?php echo link_tag('styles/bootstrap/css/bootstrap.min.css')?>
-    <?php echo link_tag('styles/bootstrap/js/bootstrap.min.js')?>
     <?php echo link_tag('styles/style.css') ?>
 
     <script src="<?php echo base_url('js/jquery_min.js')?>"></script>
+    <script src="<?php echo base_url('styles/bootstrap/js/bootstrap.min.js')?>"></script>
 
     <script type="text/javascript" src="js/login.js"></script>
 

@@ -1,4 +1,5 @@
 <div class="cnt990">
+
     <?php
 
         $this->load->view('advertFullDescription',
@@ -12,9 +13,19 @@
     ?>
 
     <!-- comments -->
-    <h3>Комментарии: </h3>
+    <h3 style="margin-top: 40px;"><img src="<?php echo base_url('/img/comments_title.jpg');?>"/> Комментарии: </h3>
     <hr/>
-
+    <?php
+        if(isset($_SESSION['login'])) {
+            if($_SESSION['login']){
+                require('forms/commentsForm.php');
+            }
+        } else {?>
+            <div class="alert alert-info">
+                Только зарегестрированные пользователи могут оставлять комментарии
+            </div>
+        <?php }?>
+    <div id="commentsShell">
     <?php
 
         foreach( $comments as $comment) {
@@ -33,7 +44,7 @@
                 for($i = 0; $i < $CommentUserData[$key]['rating']; $i++) { echo img("img/star.png"); }
                 echo "</p>";
             echo "</div>";
-            echo '<div class="resMidPart">' . $comment['text'] . '</div>';
+            echo '<div class="resMidPart">' . $comment['date'] . '<br>' . $comment['text'] . '</div>';
             echo '<div class="botPart">';
             echo '<div style="display: inline-block;">';
             //echo 'объявление: ' . $CommentUserData[$key]['title'];
@@ -46,6 +57,6 @@
             echo '</div>';
         }
     ?>
-
+    </div>
 
 </div>

@@ -8,7 +8,7 @@ $(document).ready(function() {
       this.setAttribute('check','false');
       return;
     }
-    this.nextElementSibling.innerHTML = '&nbsp;&nbsp;<img src="../img/loaderMini.gif"/>';
+    this.nextElementSibling.innerHTML = '&nbsp;&nbsp;<img src="../img/loaderMini.png"/>';
     $(this).load('/index.php/registration/check', {'data':this.value}, function(response) {
 //    alert(response);
       switch (response){

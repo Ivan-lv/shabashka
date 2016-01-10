@@ -37,7 +37,7 @@
         <?php //<!--пользователь не владелец объявления-->
             } else {
         ?>
-
+        <?php if ($_SESSION['type'] != 0) { ?>
             <?php if(isset($sessionInfo['bidInfo'])) {
 //                    print_r($sessionInfo['bidInfo']);
                     $bidId = $sessionInfo['bidInfo'][0]['id'];
@@ -46,6 +46,7 @@
                     $advID = $advertBody['id'];
                     require('forms/sendBidForm.php');
                 } ?>
+        <?php } ?>
         <?php } ?>
     </div>
     <?php }?>

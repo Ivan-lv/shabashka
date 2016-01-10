@@ -87,7 +87,7 @@ class Adverts extends CI_Model{
         $q = $this->db->select(array('date', 'text', 'user_id'))
             ->from('comment')
             ->where('comment.order_id =', $idAdvert)
-            ->order_by('date')->get();
+            ->order_by('date','DESC')->get();
         $mas["comments"] = $q->result_array();
         $this->db->reset_query();
 
@@ -245,5 +245,16 @@ class Adverts extends CI_Model{
         if (count($res) == 1) {
             return $res[0];
         }
+    }
+
+    function setMasterToAdvert($advertId, $uid) {
+        $this->db->where('id', $advertId);
+        $data = array('id_worker' => $uid);
+        $this->db->update('order', $data);
+    }
+
+    function addComment($data) {
+        $this->db->insert('comment', $data);
+        return $this->db->insert_id();
     }
 }

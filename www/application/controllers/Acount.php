@@ -292,4 +292,12 @@ class Acount extends CI_Controller {
         unset($_POST['bidId']);
         $this->user->deleteBid($id);
     }
+
+    public function  bindMasterToAdvert($advertId, $uid) {
+        echo 'aid = ' . $advertId . '  uid = ' . $uid;
+        $this->load->model('adverts','adv', TRUE);
+        $this->adv->setMasterToAdvert($advertId, $uid);
+        //@TODO: нет проверок выполнения запроса и входных данных
+        redirect('/acount/bids');
+    }
 } 

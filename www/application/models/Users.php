@@ -258,7 +258,10 @@ class Users extends CI_Model{
 
     public function getUserCustomerBids($userid) {
         $this->db
-            ->select(array('bid.date', 'user.Name', 'user.Surname', 'user.id', 'order.title'))
+            ->select(
+                array('bid.date', 'user.Name', 'user.Surname', 'user.id',
+                    'order.title','order.id as ordId', 'order.id_worker')
+            )
             ->from(array('bid', 'order', 'user'))
             ->where('order.id_customer =', $userid)
             ->where('order.id = bid.id_ordr')
@@ -358,5 +361,15 @@ class Users extends CI_Model{
     // отписка от заявки
     function deleteBid($id) {
         $this->db->delete('bid', array('id' => $id));
+    }
+
+    //вся информация о пользователе по id
+    function getUserInfo($id) {
+        $q = $this->db->select('*')
+            ->from('user')
+            ->where('id = ', $id)
+            ->get();
+        $res = $q->result_array();
+        return $res[0];
     }
 }

@@ -16,6 +16,7 @@ class Jobs extends CI_Controller{
         $this->load->model('categories', 'catgs', TRUE);
         $this->load->helper('url');
         $this->load->helper('html');
+        $this->load->library('session');
     }
 
     public function index() {
@@ -42,7 +43,7 @@ class Jobs extends CI_Controller{
             $advertInfo['sessionInfo']['isOwner'] =
                 ($_SESSION['id'] == $advertInfo['ownerData'][0]['id']) ? true : false;
 
-            if (! $advertInfo['sessionInfo']['isOwner']) {
+            if (! $advertInfo['sessionInfo']['isOwner'] && $_SESSION['type'] != 0 ) {
                 $bidInfo = $this->adverts->hasBid($_SESSION['id'], $id);
                 if ($bidInfo) {
                     $advertInfo['sessionInfo']['bidInfo'] = $bidInfo;
@@ -87,5 +88,34 @@ class Jobs extends CI_Controller{
             $html .= "<option value=\"$subCat[id]\">$subCat[name]</option>";
         }
         echo $html;
+    }
+
+    public function addComment() {
+
+        $userId = $this->session->userdata('id');
+        $commentText = $_POST['commentText'];
+        $advId = $_POST['pageId'];
+        $commentText = htmlspecialchars($commentText);
+        $advId = htmlspecialchars($advId);
+        $date = date('Y-m-d H:i:s');
+        $data = array(
+            'text'     => $commentText,
+            'order_id' => $advId,
+            'user_id'  => $userId,
+            'date'     => $date
+        );
+        $lastId = $this->adverts->addComment($data);
+        $this->load->model('users', 'users', TRUE);
+        $userInfo = $this->users->getUserInfo($userId);
+
+        $data = array(
+            'userInfo'  => $userInfo,
+            'comment'   => array(
+                    'id'   => $lastId,
+                    'text' => $commentText,
+                    'date' => $date
+            )
+        );
+        $this->load->view("commentBlock", $data);
     }
 } 
