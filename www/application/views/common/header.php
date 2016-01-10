@@ -44,7 +44,7 @@
                                     <span class='login_popup_lbl'>Пароль:</span>
                                     <input type='password' name='pass'/>
                                 </label>
-                                <div style='text-align: center'>
+                                <div style='text-align: center; width: 300px;'>
                                     <button type='submit' class='btn btn-success'>Войти</button>
                                 </div>
                             </div>&nbsp;&nbsp;&nbsp;&nbsp";
