@@ -4,9 +4,13 @@
 <p class="yellowLineBottom">Заявки на выполнение ваших заказов</p>
 
 <?php if(count($bids['cutomerBids']) > 0) { ?>
+<!--<pre>-->
+<?php //print_r($bids['cutomerBids']);?>
+<!--</pre>-->
 <table class="table .table-striped">
     <thead>
         <th>№</th>
+        <th></th>
         <th>Исполнитель</th>
         <th>Объявление</th>
         <th>Дата</th>
@@ -15,24 +19,35 @@
     <tbody>
         <?php for($i = 0; $i < count($bids['cutomerBids']); $i++) {
             $date = new DateTime($bids['cutomerBids'][$i]['date']);
-            $n = $i + 1;
+            $n = $i + 1; //. $bids['cutomerBids'][$i]['']
         ?>
             <tr>
                 <td><?php echo $n;?></td>
+                <td><?php if($bids['cutomerBids'][$i]['id_worker'] == $bids['cutomerBids'][$i]['id']) echo 'исполнитель'?></td>
                 <td><?php echo $bids['cutomerBids'][$i]['Name'] . ' ' . $bids['cutomerBids'][$i]['Surname']; ?></td>
                 <td><?php echo $bids['cutomerBids'][$i]['title']; ?></td>
                 <td><?php echo $date->format('d.m.Y');?></td>
                 <td>
-                    <div class="btn-group">
-                        <button class="btn btn-small">см. карточку</button>
-                        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                            действие
+                            <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">смотреть карточку</a></li>
-                            <li><a href="#">назначить исполнителем</a></li>
+                            <li>
+                                <a href="<?php
+                                echo site_url('/employes/card/' . $bids['cutomerBids'][$i]['id']);
+                                ?>">Смотреть карточку</a>
+                            </li>
+                            <li>
+                                <a href="<?php
+                                    echo site_url('/acount/bindMasterToAdvert/' . $bids['cutomerBids'][$i]['ordId']
+                                        . '/' . $bids['cutomerBids'][$i]['id']);
+                                ?>">назначить исполнителем</a>
+                            </li>
                         </ul>
                     </div>
+
                 </td>
             </tr>
         <?php } ?>

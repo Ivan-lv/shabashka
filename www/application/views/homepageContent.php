@@ -11,7 +11,7 @@
                 echo '<!--';
                 foreach($adverts as $advert){
                     $text = (strlen($advert['text']) > 115) ? substr($advert['text'], 0, 115) . "..." : $advert['text'];
-                    echo '--><div class="item1">';
+                    echo '--><div class="item1" data-advid="'.$advert['id'].'" onclick="goToAdvert(this)">';
                     echo "<p>$advert[title]</p>"; // @todo: проверить name ли?!!
                     echo "<p style=\"height: 56px;\">$text</p>";
                     echo "<p>{$advert['price']}р.</p>"; // @todo: проверить price ли?!!

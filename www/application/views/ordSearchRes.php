@@ -5,7 +5,7 @@
     foreach( $advertsList as $advert) {
         $d = new DateTime($advert['date']);
         $p = $d->format('d.m.Yг.');
-        echo '<div class="resBlock1">';
+        echo '<div class="resBlock1" data-advId="'.$advert['id'].'" onclick="goToAdvert(this)">';
         echo '<div class="resLfPart">';
         echo "<p class=\"resOrdName\"> $advert[title] </p>";
         echo "<p class=\"resOrdInf\"><br/> <span class=\"resOrdDate\">$p</span></p>";

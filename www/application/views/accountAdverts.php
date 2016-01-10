@@ -1,80 +1,58 @@
 <h4>Мои объявления</h4>
 <div class="searchResultShell">
 
-    <?php
-
-    /*
-    $advertsList = array(
-        array(
-            'id'    => 1,
-            'name'  => 'Нужен повар !!!',
-            'text'  => 'Нужен повар для приготовления Нужен повар для приготовления
-                                пищи на праздник меню Нужен повар для приготовления
-                                пищи на праздник меню пищи на праздник меню',
-            'price' => 1000,
-            'categ' => 'Ремонт бытовой техники',
-            'dateAdded' => '12.05.2010',
-            'status' => 0
+<?php foreach( $advertsList as $advert) { ?>
+        <div class="resBlock3">
+        <div class="resLfPart">
+        <p class="resOrdName"><?php echo $advert['Title']; ?></p>
 
 
-        ),
-        array(
-            'id'    => 2,
-            'name'  => 'Нужен повар !!!',
-            'text'  => 'Нужен повар для приготовления Нужен повар для приготовления
-                                пищи на праздник меню Нужен повар для приготовления
-                                пищи на праздник меню пищи на праздник меню',
-            'price' => 2000,
-            'categ' => 'Ремонт бытовой техники',
-            'dateAdded' => '12.05.2010',
-            'status' => 0
-
-
-        )
-
-    );
-    */
-
-
-
-    foreach( $advertsList as $advert) {
-        echo '<div class="resBlock3">';
-        echo '<div class="resLfPart">';
-        echo "<p class=\"resOrdName\"> $advert[Title] </p>";
-        //echo "<p class=\"resOrdInf\">$advert[categ] <br/> <span class=\"resOrdDate\">$advert[dateAdded]</span></p>";
-
-        $status = "";
+        <?php $status = "";
         switch($advert['status']) {
             case 0: $status = '<span style="color:green">Активен</span>'; break;
             case 1: $status = '<span style="color:red">Выполнен</span>'; break;
             case 2: $status = '<span style="color:gray">Отменён</span>';
         }
+        ?>
+        <p class="resStatus"><?php echo $status ?></p>
+        <p class="resPrice"><?php echo $advert['price'] .'р.'?></p>
 
-        echo "<p class=\"resStatus\">$status</p>";
-        echo "<p class=\"resPrice\">{$advert['price']}р.</p>";
+        </div>
 
-        echo "</div>";
+        <div class="resMidPart">
+            <div>
+                <?php echo $advert['text'];?>
+            </div>
+        </div>
 
-        echo '<div class="resMidPart"><div>';
-        echo $advert['text'];
-        echo  '</div></div>';
+        <div class="botPart">
+            <div style="display: inline-block;">
+                <a href="<?php echo site_url('jobs/show/'.$advert['id'])?>">посмотреть</a>
+            </div>
+            <div style="display: inline-block; text-align: right">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        действие
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<?php echo site_url('acount/addEditAdvert/'.$advert['id']) ?>">редактировать</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo site_url('acount/removeAdvert/'.$advert['id']) ?>">удалить</a>
+                        </li>
 
-        echo '<div class="botPart">';
-            echo '<div style="display: inline-block;">';
-                echo '<a href="' . site_url('jobs/'.$advert['id']) . '">посмотреть</a>';
-            echo '</div>';
-            echo '<div style="display: inline-block; text-align: right">';
-                echo '<a href="' . site_url('acount/addEditAdvert/'.$advert['id']) . '">редактировать</a>';
-                echo '&nbsp;&nbsp;&nbsp;&nbsp;';
-                echo '<a href="' . site_url('acount/removeAdvert/'.$advert['id']) . '">удалить</a>';
-            echo '</div>';
-        echo '</div>';
-        echo '</div>';
-    }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+<?php } ?>
 
-    //@todo: сделать pagination
+    <?php//@todo: сделать pagination ?>
 
-    ?>
+
 
 
     <!--<div class="pagination pagination-centered">
