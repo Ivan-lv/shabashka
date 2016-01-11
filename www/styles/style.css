@@ -234,6 +234,8 @@ table.catShell{
     border-bottom: 2px solid #d1d1c2;
     border-top: 2px solid #d1d1c2;
     padding: 20px 0;
+    position: relative;
+    /*opacity: 0.8;*/
 }
 .resBlock1 {width: 930px;}
 .resBlock3 {width: 700px;}
@@ -456,7 +458,14 @@ table.catShell{
     height: 70px;
     resize: none;
 }
-
+.searchloader {
+    position: absolute;
+    background: transparent;
+    z-index: 100;
+    margin-left: 50%;
+    left: -50px;
+    display: none;
+}
 .login_popup {
     background: #ffff66;
     border: 1px solid #c0c0c0;

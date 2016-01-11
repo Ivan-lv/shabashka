@@ -20,16 +20,25 @@ class Jobs extends CI_Controller{
     }
 
     public function index() {
+        //header('Location: /jobs/last');
+        redirect('/jobs/last');
+    }
 
-        $this->load->view("common/header");
-        $advertsList = $this->adverts->getLastAdverts();
+    public  function last() {
+        $per_page = 5;
+
+        $this->load->library('pagination');
+        $countAll = $this->adverts->countActiveAdverts();
+        $config = $this->paginationInit(site_url('/jobs/last'), $countAll, $per_page);
+        $this->pagination->initialize($config);
+        $advertsList = $this->adverts->getLastAdverts($per_page, $this->uri->segment(3));
         $categs = $this->catgs->getCategories();
 
         $data = array(
             'advertsList' => $advertsList,
             'categs'      => $categs
         );
-
+        $this->load->view("common/header");
         $this->load->view("findJobCnt", $data);
         $this->load->view("common/footer");
     }
@@ -60,24 +69,55 @@ class Jobs extends CI_Controller{
         $this->load->view("common/footer");
     }
 
-    public function find() {
-        $params = $this->input->post('params');
-        $params = json_decode($params,true);
+    private  function pagDemo() {
+        $per_page = 2;
+        $this->load->library('pagination');
+        $countAll = $this->adverts->countAll();
+        $config = $this->paginationInit(site_url('/jobs/pagDemo/'), $countAll, 2);
+        $this->pagination->initialize($config);
+        $data['adverts'] = $this->adverts->getDemoAdverts($config['per_page'], $this->uri->segment(3));
 
+        $this->load->view('common/header');
+        $this->load->view('pagination_demo', $data);
+        $this->load->view('common/footer');
+    }
 
-//        print_r($params);
-        $res = $this->adverts->findAdverts($params);
-        $this->load->view('ordSearchRes', array('advertsList' => $res));
+    public function find($idCat = FALSE, $idSubcat = FALSE) {
 
-//        $this->load->view("header");
-//
-//        $data = array();
-//        $this->load->view("findJobCnt", $data);
-//
-//        $this->load->view("footer");
+        if($this->input->post('params')) { // если пришло из ajax
+            $params = $this->input->post('params');
+            $params = json_decode($params,true);
+        } else {
+            $params['category']    = $idCat;
+            $params['subcategory'] = $idSubcat;
+            $params['sortBy'] = 'date';
+            $params['count'] = 5;
+            $categs = $this->catgs->getCategories();
+            $subCats = $this->catgs->getSubCategories($idCat);
+        }
+        $per_page = $params['count'];
+        $offset = ($idCat && $idSubcat) ? $this->uri->segment(5) : $this->uri->segment(3);
+        $countAll = $this->adverts->findAdverts($params, $offset, true);
+        $this->load->library('pagination');
+        $config = $this->paginationInit(site_url('/jobs/find'), $countAll, $per_page);
+        $this->pagination->initialize($config);
+        $advertsList = $this->adverts->findAdverts($params, $offset);
 
-
-
+        //выбираем как будем выводить: либо для ajax либо как полная страница
+        if($idCat && $idSubcat) {
+            $this->load->view("common/header");
+            $data = array(
+                'advertsList'    => $advertsList,
+                'categs'         => $categs,
+                'subCats'        => $subCats,
+                'selectedCat'    => $idCat,
+                'selectedSubcat' => $idSubcat
+            );
+            $this->load->view("findJobCnt", $data);
+            $this->load->view("common/footer");
+            return;
+        }
+        $this->load->view('ordSearchRes', array('advertsList' => $advertsList));
     }
 
     public function getSubcategories() {
@@ -117,5 +157,21 @@ class Jobs extends CI_Controller{
             )
         );
         $this->load->view("commentBlock", $data);
+    }
+
+    private function paginationInit($base_url, $total_rows, $per_page) {
+        $config['base_url'] = $base_url;//site_url('/jobs/pagDemo/');
+        $config['total_rows'] = $total_rows;//
+        $config['per_page'] = $per_page;//2;
+        $config['first_tag_open'] = $config['last_tag_open']= $config['next_tag_open']= $config['prev_tag_open'] = $config['num_tag_open'] = '<li>';
+        $config['first_tag_close'] = $config['last_tag_close']= $config['next_tag_close']= $config['prev_tag_close'] = $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = "</a></li>";
+        $config['first_link'] = 'В начало';
+        $config['last_link'] = 'В конец';
+        $config['next_link'] = '»';
+        $config['prev_link'] = '«';
+
+        return $config;
     }
 } 

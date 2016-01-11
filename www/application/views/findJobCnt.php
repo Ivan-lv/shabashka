@@ -6,15 +6,39 @@
                 <select class="span3" id="cat" onchange="getSubcat(this)">
                    <option value="0"></option>
                     <?php
-                     foreach ($categs as $categ) {
-                        echo "<option value=\"$categ[id]\">$categ[name]</option>";
-                     }
-                   ?>
+                        if(isset($selectedCat)) {
+                            foreach ($categs as $categ) {
+                                if($categ['id'] == $selectedCat) {
+                                    echo "<option selected=\"selected\" value=\"$categ[id]\">$categ[name]</option>";
+                                } else {
+                                    echo "<option value=\"$categ[id]\">$categ[name]</option>";
+                                }
+                            }
+                        } else {
+                            foreach ($categs as $categ) {
+                                echo "<option value=\"$categ[id]\">$categ[name]</option>";
+                            }
+                        }
+                    ?>
                 </select>&nbsp;&nbsp;&nbsp;&nbsp;
             </label>
             <label> Категория
                 <select class="span3" id="subCat">
-                    <!--@todo: insert code here-->
+                    <?php
+                        if(isset($selectedSubcat)) {
+                            foreach ($subCats as $subCat) {
+                                if($subCat['id'] == $selectedSubcat) {
+                                    echo "<option selected=\"selected\" value=\"$subCat[id]\">$subCat[name]</option>";
+                                } else {
+                                    echo "<option value=\"$subCat[id]\">$subCat[name]</option>";
+                                }
+                            }
+                        } else {
+                            foreach ($subCats as $subCat) {
+                                echo "<option value=\"$subCat[id]\">$subCat[name]</option>";
+                            }
+                        }
+                    ?>
                 </select>&nbsp;&nbsp;&nbsp;&nbsp;
             </label>
             <label> Стоимость от
@@ -35,10 +59,10 @@
                     <input type="radio" value="price" hidden="true" name="group1" style="display: none;"/>
                     по цене
                 </label>
-                <label class="js-rb">
-                    <input type="radio" value="status" hidden="true" name="group1" style="display: none;"/>
-                    по статусу
-                </label>
+<!--                <label class="js-rb">-->
+<!--                    <input type="radio" value="status" hidden="true" name="group1" style="display: none;"/>-->
+<!--                    по статусу-->
+<!--                </label>-->
 
 <!--                <a href="#">по цене</a>-->
 <!--                <a href="#">по дате</a>-->
@@ -48,18 +72,25 @@
                 <label> Выводить по
                     <select class="span1" id="count">
                         <!--@todo: insert code here-->
+                        <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="0">все</option>
+                        <option value="">все</option>
                     </select>
                 </label>
             </p>
         </div>
     </form>
-    <div class="searchResultShell">
-    <!--result blocks-->
-    <?php $this->load->view("ordSearchRes");?>
+    <div style="position: relative;">
+    <div class="searchloader"><img src="<?php echo base_url('img/searchLoader.png')?>"/> </div>
+        <div class="searchResultShell">
+
+
+        <!--result blocks-->
+
+            <?php $this->load->view("ordSearchRes");?>
+
+        </div>
     </div>
 </div>
 

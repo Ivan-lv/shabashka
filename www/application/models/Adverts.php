@@ -3,16 +3,27 @@
 
 class Adverts extends CI_Model{
 	
-	public function getLastAdverts ($count = 10){
+	public function getLastAdverts ($count = 10, $offset = 0){
 		//Последние актуальные заказы
 		$q = $this->db->select(array('id', 'title', 'text', 'price','status','date'))
 			->from('order')
 			->where('status = ','0')
 			->order_by('date', 'DESC')
-			->limit($count)->get();
+			->limit($count, $offset)->get();
 		return $q->result_array();
 	}
 
+    public function countActiveAdverts() {
+        $this->db->where('status = ', 0);
+        return $this->db->count_all_results('order');
+    }
+
+    public function getDemoAdverts($num, $offset) {
+        //$this->db->limit($num);
+        $this->db->order_by('date', 'DESC');
+        $query = $this->db->get('order',$num,$offset);
+        return $query->result_array();
+    }
 
     public function getUserAdverts($uid, $idAdvert = FALSE) {
         if ($idAdvert === FALSE) {
@@ -135,7 +146,7 @@ class Adverts extends CI_Model{
             'title'       => $advertData['title'],
             'status'      => 0,
             'id_customer' => $_SESSION['id'],
-            'date'        => $d->format('Y-m-d')
+            'date'        => $d->format('Y-m-d H:i:s')
         );
         $this->db->insert('order', $data);
 
@@ -202,8 +213,7 @@ class Adverts extends CI_Model{
         $this->db->reset_query();
     }
 
-    public function findAdverts($params){
-
+    public function findAdverts($params, $offset, $isCount = FALSE){
 
         $category    = $params['category'];
         $subcategory = (isset($params['subcategory'])) ? $params['subcategory'] : 0;
@@ -218,19 +228,24 @@ class Adverts extends CI_Model{
             ->where('order.price >= ', $priceMin)
             ->where('order.price <=', $priceMax)
             ->where('order_cat.id_order = order.id')
-            ->where('order_cat.id_catg = category.id');
-        if ($sortBy != 'status')
-            $this->db->order_by($sortBy, 'DESC');
-        else {
-            $this->db->order_by($sortBy);
-        }
+            ->where('order_cat.id_catg = category.id')
+            ->where('order.status =', 0);
+
+        $this->db->order_by($sortBy,'DESC');
+
         if ($subcategory != 0) {
             $this->db->where('order_cat.id_subctg = ', $subcategory);
         } elseif ($category != 0) {
             $this->db->where('order_cat.id_catg = ', $category);
         }
-
-        return $this->db->limit($count)->get()->result_array();
+        //SELECT * FROM order, category, order_cat WHERE order.price >= 0 AND order.price <= 100000 AND order_cat.id_order = order.id AND order_cat.id_catg = category.id AND order_cat.id_catg = 2
+        if($isCount) {
+//            echo '<pre>';
+//            print_r($this->db->get()->result_array());
+//            echo '</pre>';
+            return count($this->db->get()->result_array());
+        }
+        return $this->db->limit($count, $offset)->get()->result_array();
     }
 
     function getAdvertInfById($advertId, $fields = '*') {

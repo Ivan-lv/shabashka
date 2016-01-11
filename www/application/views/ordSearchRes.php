@@ -32,14 +32,8 @@
     //@todo: сделать pagination
 
     ?>
-
-
-    <div class="pagination pagination-centered">
+    <div class="pagination pagination-centered" id="resPagination")">
         <ul>
-            <li><a href="#">пред.</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">след.</a></li>
+            <?php echo $this->pagination->create_links(); ?>
         </ul>
     </div>
