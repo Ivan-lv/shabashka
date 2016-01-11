@@ -467,9 +467,15 @@ table.catShell{
     padding: 0;
     top: 50px;
     width: 300px;
+    padding: 20px;
 }
 
 .login__popup_lbl{
     position: inherit;
     margin: 25px;
+}
+
+.bad_login_label{
+    color: #ff0000;
+    display: none;
 }

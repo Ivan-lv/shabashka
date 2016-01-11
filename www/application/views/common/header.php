@@ -9,7 +9,7 @@
     <script src="<?php echo base_url('js/jquery_min.js')?>"></script>
     <script src="<?php echo base_url('styles/bootstrap/js/bootstrap.min.js')?>"></script>
 
-    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="<?php echo base_url('js/login.js')?>"></script>
 
 </head>
 <body>
@@ -38,14 +38,15 @@
                             <div class='login_popup' id='popup'>
                                 <label>
                                     <span class='login_popup_lbl'>Логин:</span>
-                                    <input type='text' name='login'/>
+                                    <input type='text' name='login' id='login_inp'/>
                                 </label>
                                 <label>
                                     <span class='login_popup_lbl'>Пароль:</span>
-                                    <input type='password' name='pass'/>
+                                    <input type='password' name='pass' id='pass_inp'/>
                                 </label>
+                                <label class='bad_login_label' id='bad_login_label'>Неверные имя пользователя или пароль</label>
                                 <div style='text-align: center; width: 300px;'>
-                                    <button type='submit' class='btn btn-success'>Войти</button>
+                                    <button type='submit' class='btn btn-success' id='login_popup_commit'>Войти</button>
                                 </div>
                             </div>&nbsp;&nbsp;&nbsp;&nbsp";
                         //"<a href=\"" . site_url('login') . "\">Вход</a> &nbsp;&nbsp;&nbsp;&nbsp";
