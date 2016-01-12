@@ -145,7 +145,7 @@ class Acount extends CI_Controller {
         $data = array(
             'advertsList' => $userAdverts,
             'viewName' => 'accountAdverts'
-        );
+        );  
         $this->load->view('common/header');
         $this->load->view('account', $data);
         $this->load->view('common/footer');
