@@ -1,5 +1,17 @@
 <h4>Мои объявления</h4>
 <div class="searchResultShell">
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a href="#home" data-toggle="tab">Активные()</a></li>
+        <li><a href="#profile" data-toggle="tab">Завершенные()</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="home">
+            активные
+        </div>
+        <div class="tab-pane fade" id="profile">
+            неактивные
+        </div>
+    </div>
 
 <?php foreach( $advertsList as $advert) { ?>
         <div class="resBlock3">
@@ -50,11 +62,7 @@
         </div>
 <?php } ?>
 
-    <?php//@todo: сделать pagination ?>
-
-
-
-
+    <?php //@todo: сделать pagination ?>
     <!--<div class="pagination pagination-centered">
         <ul>
             <li><a href="#">пред.</a></li>

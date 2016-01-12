@@ -49,7 +49,7 @@ function sendAdvData() {
   var sendData = JSON.stringify(data);
 //  console.log(data);
 //  console.log(sendData);
-  document.getElementsByTagName('button')[0].innerHTML = 'подождите <img src="http://shab.ru/img/loaderMini.GIF"/>';
+  document.getElementsByTagName('button')[0].innerHTML = 'подождите <img src="/img/loaderMini.png"/>';
 
   $.ajax({
     method: 'post',
@@ -92,7 +92,7 @@ function sendUserData() {
   var sendData = JSON.stringify(data);
 //  console.log(data);
 //  console.log(sendData);
-  document.getElementsByTagName('button')[0].innerHTML = 'подождите <img src="http://shab.ru/img/loaderMini.GIF"/>';
+  document.getElementsByTagName('button')[0].innerHTML = 'подождите <img src="/img/loaderMini.png"/>';
 
   $.ajax({
     method: 'post',

@@ -107,7 +107,6 @@ class Acount extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-
     public function editCard() {
         $this->load->view('common/header');
 
@@ -141,16 +140,12 @@ class Acount extends CI_Controller {
 
     }
 
-
     public function myadverts() {
         $userAdverts = $this->user->getUserCustomerAdverts($_SESSION['id']);
-
         $data = array(
             'advertsList' => $userAdverts,
             'viewName' => 'accountAdverts'
         );
-
-
         $this->load->view('common/header');
         $this->load->view('account', $data);
         $this->load->view('common/footer');

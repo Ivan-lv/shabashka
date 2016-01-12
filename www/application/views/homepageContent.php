@@ -87,7 +87,7 @@
             <?php
             foreach($masters as $master) {
 
-                echo "<div class=\"sliderItem2\" data-userId=\"$master[id]\" >";
+                echo "<div class=\"sliderItem2\" data-userId=\"$master[id]\" onclick='goToUserCard(this)'>";
                 echo "<p class=\"masterPhoto\">" .
                     img(($master['photo'] === null) ?
                         'img/userWithoutPhoto.png' :

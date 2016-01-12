@@ -75,7 +75,7 @@ class Login extends CI_Controller {
         $this->load->library('session');
         $this->session->sess_destroy();
 
-        redirect('/');
-//        redirect($this->input->server('HTTP_REFERER'));
+//        redirect('/');
+        redirect($this->input->server('HTTP_REFERER'));
     }
 } 

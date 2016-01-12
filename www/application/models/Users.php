@@ -137,10 +137,6 @@ class Users extends CI_Model{
         else return false;
     }
 
-    public function logout() {
-
-    }
-
     public function checkLogin($loginString){
         $q = $this->db->select('id')
             ->from('user')
@@ -255,7 +251,6 @@ class Users extends CI_Model{
 
     }
 
-
     public function getUserCustomerBids($userid) {
         $this->db
             ->select(
@@ -292,6 +287,10 @@ class Users extends CI_Model{
             ->where('order.id_customer =', $userid);
         $mas = $this->db->get()->result_array();
         $this->db->reset_query();
+
+        if (count($mas) == 0) { //
+            return array();
+        }
 
         $advertsIds = array();
         foreach($mas as $m) {

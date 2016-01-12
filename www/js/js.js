@@ -33,6 +33,10 @@ function goToAdvert(elem) {
   window.location = '/index.php/jobs/show/' + elem.getAttribute('data-advid');
 }
 
+function goToUserCard(e) {
+  window.location = 'index.php/employes/card/' + e.getAttribute('data-userid');
+}
+
 /* insert comment */
 function insertComment() {
   var commentText = $('#commentsForm .formText textarea').val();

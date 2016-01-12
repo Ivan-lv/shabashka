@@ -6,7 +6,7 @@
                 <?php
                     if ($_SESSION['type'] == 2) {
                         echo '<li><a href="'. site_url('acount/myadverts') .'">Мои объявления</a></li>';
-                        echo '<li><a href="'. site_url('acount/addAdvert') .'">Добавить объявление</a></li>';
+                        echo '<li><a href="'. site_url('acount/addEditAdvert') .'">Добавить объявление</a></li>';
                         echo '<li><a href="'. site_url('acount/bids') .'">Заявки</a></li>';
                         echo '<li><a href="'. site_url('acount/comments') .'">Комментарии</a></li>';
                         echo '<li><a href="'. site_url('acount/editProfile') .'">Ред. профиль</a></li>';
