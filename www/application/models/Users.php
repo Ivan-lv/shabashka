@@ -95,34 +95,31 @@ class Users extends CI_Model{
 
     }
 
-	public function findUserMaster($category = 0 , $subcategory = 0, $count = 10, $sortBy = 'rating'){
-        if ($category === 0 & $subcategory === 0) {
-            $q = $this->db->select(array('id', 'Name', 'Surname', 'photo', 'rating', 'orders_complete','text'))
-                ->from('user')
-                ->where('user_category =', '1')
-                ->or_where('user_category =', '2')
-                ->order_by($sortBy, 'DESC')
-                ->limit($count)->get();
-        } elseif ($subcategory != 0){
-            $q = $this->db->select(array('id', 'Name', 'Surname', 'photo', 'rating', 'orders_complete','text'))
-                ->from('user')
-                ->where('user_category =', '1')
-                ->or_where('user_category =', '2')
+	public function findUserMaster($category = 0 , $subcategory = 0, $count = 5, $sortBy = 'rating'){
+        $this->db->distinct(array('user.id', 'user.Name', 'user.Surname', 'user.photo', 'user.rating', 'user.orders_complete','text'))
+            ->from('user')
+            ->where_in('user_category', array('1','2'))
+            ->order_by($sortBy, 'DESC');
+        if ($category != 0 && $subcategory != 0) {
+            $this->db
+                ->from('user_cat')
                 ->where('user_cat.id_user = user.id')
-                ->where('id_subcategory = ',$subcategory)
-                ->order_by($sortBy, 'DESC')
-                ->limit($count)->get();
-        } else {
-            $q = $this->db->select(array('id', 'Name', 'Surname', 'photo', 'rating', 'orders_complete','text'))
-                ->from('user')
-                ->where('user_category =', '1')
-                ->or_where('user_category =', '2')
+                ->where('user_cat.id_subcategory = ', $subcategory)
+                ->where('user_cat.id_category = ', $category);
+        } elseif ($subcategory !== 0) {
+            $this->db
+                ->from('user_cat')
                 ->where('user_cat.id_user = user.id')
-                ->where('id_category = ',$category)
-                ->order_by($sortBy, 'DESC')
-                ->limit($count)->get();
+                ->where('user_cat.id_subcategory = ', $subcategory);
+        } elseif ($category !== 0 ) {
+            $this->db
+                ->from('user_cat')
+                ->where('user_cat.id_user = user.id')
+                ->where('user_cat.id_category = ', $category);
         }
-        return $q->result_array();
+        return $this->db->limit($count)->get()->result_array();
+        //return $this->db->query("SELECT * FROM shab.user WHERE (user.user_category ='1' OR user.user_category = '2') AND user.rating > 1 order by user.rating DESC ")->result_array();
+
 	}
 
     public function  login($login, $pass)
@@ -139,6 +136,11 @@ class Users extends CI_Model{
 
     public function logout() {
 
+    }
+
+    public function countAllUsers() {
+        //$this->db->where('status = ', 0);
+        return $this->db->count_all_results('order');
     }
 
     public function checkLogin($loginString){
