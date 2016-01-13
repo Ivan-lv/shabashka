@@ -46,12 +46,9 @@ class Home extends CI_Controller {
 
         $data['categs'] = $categs;
 
-        $data['masters'] = $this->users->getTheBestUserMaster(10);
+        $data['masters'] = $this->users->getTheBestUserMaster(10, 'DESC');
         $adverts = $this->adverts->getLastAdverts();
         $data['adverts'] = $adverts;
-//        $data['adverts']['test'] = array('mongo','tongo');
-//        $this->load->view('test', $data);
-
 
         $this->load->view('homepageContent', $data); // $data here!
 

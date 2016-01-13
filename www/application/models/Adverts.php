@@ -72,7 +72,6 @@ class Adverts extends CI_Model{
         return $mas;
     }
 
-
     public function getAdvert($idAdvert)
     { //Для страницы подробного просмотра заказа
         $q = $this->db->select(array('title', 'text', 'price', 'id'))
@@ -271,5 +270,19 @@ class Adverts extends CI_Model{
     function addComment($data) {
         $this->db->insert('comment', $data);
         return $this->db->insert_id();
+    }
+
+    function completeAdvert($advId) {
+        $data = array('status' => 1);
+        $this->db->where('id =', $advId);
+        $this->db->update('order', $data);
+        $this->db->reset_query();
+        $q = $this->db->select('id_worker')
+            ->from('order')
+            ->where('id = ', $advId)
+            ->get();
+        $idWorker = $q->result_array();
+
+        return array('response' => 0, 'idWorker' => $idWorker[0]['id_worker']);
     }
 }

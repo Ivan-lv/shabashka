@@ -15,6 +15,18 @@ function subscribeToAdvert() {
   })
 }
 
+function bindMasterAdvert(e) {
+//  e.preventDefault();
+  $.ajax({
+    type: 'POST',
+    url : '/index.php/acount/bindMasterToAdvert',
+    data: {'uid': e.getAttribute('bid'), 'advId': e.getAttribute('ordrid')},
+    success: function() {
+      window.location.reload();
+    }
+  })
+}
+
 function unsubscribeToBid(elem) {
   var bidId = elem.parentElement.bidId.value;
   elem.innerHTML = 'подождите <img src="/img/loaderMini.png"/>';

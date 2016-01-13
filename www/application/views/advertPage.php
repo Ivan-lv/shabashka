@@ -25,7 +25,7 @@
                 Только зарегестрированные пользователи могут оставлять комментарии
             </div>
         <?php }?>
-    <div id="commentsShell">
+    <div id="commentsShell"><a name="comments"></a>
     <?php
 
         foreach( $comments as $comment) {
@@ -44,7 +44,8 @@
                 for($i = 0; $i < $CommentUserData[$key]['rating']; $i++) { echo img("img/star.png"); }
                 echo "</p>";
             echo "</div>";
-            echo '<div class="resMidPart">' . $comment['date'] . '<br>' . $comment['text'] . '</div>';
+            $date = new DateTime($comment['date']);
+            echo '<div class="resMidPart">' . $date->format('d.m.Yг в H:s:i') . '<br>' . $comment['text'] . '</div>';
             echo '<div class="botPart">';
             echo '<div style="display: inline-block;">';
             //echo 'объявление: ' . $CommentUserData[$key]['title'];

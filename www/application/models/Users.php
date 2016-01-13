@@ -3,13 +3,14 @@
 
 class Users extends CI_Model{
 	
-	public function getTheBestUserMaster($count = 5){
-		$q = $this->db->select(array('Name', 'Surname','rating','photo', 'id'))
+	public function getTheBestUserMaster($count = 5, $orderBy = 'DESC', $offset = 0){
+		$q = $this->db->select('*')
 			->from('user')
 			->where('user_category =','1')
 			->or_where('user_category =','2')
-			->order_by('rating', 'DESC')
-			->limit($count);
+			->order_by('rating', $orderBy)
+			->limit($count,$offset);
+
 		return $q->get()->result_array();
 	}
 
@@ -122,6 +123,44 @@ class Users extends CI_Model{
 
 	}
 
+    public function findUserMasterr($params, $offset, $isCount = FALSE){
+
+        $category    = $params['category'];
+        $subcategory = (isset($params['subcategory'])) ? $params['subcategory'] : 0;
+        $count       = $params['count'];
+        $sortBy      = $params['sortBy'];
+
+        $this->db->distinct(array('user.id', 'user.Name', 'user.Surname', 'user.photo', 'user.rating', 'user.orders_complete','text'))
+            ->from('user')
+            ->where_in('user_category', array('1','2'))
+            ->order_by($sortBy, 'DESC');
+        if ($category != 0 && $subcategory != 0) {
+            $this->db
+                ->from('user_cat')
+                ->where('user_cat.id_user = user.id')
+                ->where('user_cat.id_subcategory = ', $subcategory)
+                ->where('user_cat.id_category = ', $category);
+        } elseif ($subcategory !== 0) {
+            $this->db
+                ->from('user_cat')
+                ->where('user_cat.id_user = user.id')
+                ->where('user_cat.id_subcategory = ', $subcategory);
+        } elseif ($category !== 0 ) {
+            $this->db
+                ->from('user_cat')
+                ->where('user_cat.id_user = user.id')
+                ->where('user_cat.id_category = ', $category);
+        }
+
+        if($isCount) {
+            return count($this->db->get()->result_array());
+        }
+
+        return $this->db->limit($count, $offset)->get()->result_array();
+        //return $this->db->query("SELECT * FROM shab.user WHERE (user.user_category ='1' OR user.user_category = '2') AND user.rating > 1 order by user.rating DESC ")->result_array();
+
+    }
+
     public function  login($login, $pass)
     {
         $q = $this->db->select(array('id','user_category', 'Name', 'Surname'))
@@ -134,18 +173,16 @@ class Users extends CI_Model{
         else return false;
     }
 
-<<<<<<< HEAD
-=======
     public function logout() {
 
     }
 
     public function countAllUsers() {
-        //$this->db->where('status = ', 0);
-        return $this->db->count_all_results('order');
+        $this->db->where('user_category = ', 1);
+        $this->db->or_where('user_category = ', 2);
+        return $this->db->count_all_results('user');
     }
 
->>>>>>> origin/master
     public function checkLogin($loginString){
         $q = $this->db->select('id')
             ->from('user')
@@ -245,33 +282,57 @@ class Users extends CI_Model{
 
     public function getUserCustomerAdverts($userid, $count = 10, $sortBy = 'date') {
         $this->db->distinct()
+            ->select(array('order.id_worker','order.id', 'order.Title', 'order.text', 'order.status', 'order.price', 'order.date', 'category.name'))
+            ->from(array('order', 'category', 'order_cat'))
+            ->where('order_cat.id_order = order.id')
+            ->where('order_cat.id_catg = category.id')
+            ->where('order.id_customer =', $userid)
+            ->where('order.status =', 0)
+            ->group_by('title');
+        if ($sortBy != 'status')
+            $this->db->order_by($sortBy, 'DESC');
+        else {
+            $this->db->order_by($sortBy, 'DESC');
+        }
+        $adverts['active'] = $this->db->limit($count)->get()->result_array();
+        $this->db->reset_query();
+
+        $this->db->distinct()
             ->select(array('order.id', 'order.Title', 'order.text', 'order.status', 'order.price', 'order.date', 'category.name'))
             ->from(array('order', 'category', 'order_cat'))
             ->where('order_cat.id_order = order.id')
             ->where('order_cat.id_catg = category.id')
             ->where('order.id_customer =', $userid)
+            ->where('order.status =', 1)
             ->group_by('title');
         if ($sortBy != 'status')
             $this->db->order_by($sortBy, 'DESC');
         else {
-            $this->db->order_by($sortBy);
+            $this->db->order_by($sortBy, 'DESC');
         }
-        return $this->db->limit($count)->get()->result_array();
+        $adverts['completed'] = $this->db->limit($count)->get()->result_array();
+        return $adverts;
 
     }
 
     public function getUserCustomerBids($userid) {
-        $this->db
-            ->select(
-                array('bid.date', 'user.Name', 'user.Surname', 'user.id',
-                    'order.title','order.id as ordId', 'order.id_worker')
-            )
-            ->from(array('bid', 'order', 'user'))
-            ->where('order.id_customer =', $userid)
-            ->where('order.id = bid.id_ordr')
-            ->where('bid.id_usr = user.id');
+        $this->db->select(array('title', 'order.id', 'id_worker'))
+            ->from('order')
+            ->where('id_customer = ', $userid)
+            ->where('status = ', 0);
+        $orders = $this->db->get()->result_array();
+        $this->db->reset_query();
+        for($i = 0; $i < count($orders); $i++) {
+            $this->db->select(array('bid.date', 'user.Name', 'user.Surname', 'user.id'))
+                ->from(array('bid', 'user'))
+                ->where('bid.id_usr = user.id')
+                ->where('bid.id_ordr =', $orders[$i]['id']);
 
-        return $this->db->get()->result_array();
+            $orders[$i]['bids'] = $this->db->get()->result_array();
+            $this->db->reset_query();
+        }
+
+        return $orders;
     }
 
     public function getUserMasterBids($uid) {
@@ -281,11 +342,8 @@ class Users extends CI_Model{
             ->where('order.id = bid.id_ordr')
             ->where('bid.id_usr', $uid);
         $r = $this->db->get()->result_array();
-/*        echo '<pre>';
-        print_r($r);
-        echo '</pre>';*/
-        return $r;
 
+        return $r;
     }
 
     public function getUserCustomerComments($userid, $count = 10, $sortBy = 'date') {
@@ -379,5 +437,22 @@ class Users extends CI_Model{
             ->get();
         $res = $q->result_array();
         return $res[0];
+    }
+
+    //пересчитать рэйтинг
+    function setRating($idWorker, $rating) {
+        $q = $this->db->select(array('orders_complete','agr_rating'))
+            ->from('user')
+            ->where('id = ', $idWorker)
+            ->get();
+        $res = $q->result_array();
+        $this->db->reset_query();
+        $res = $res[0];
+        $res['agr_rating'] = ($res['agr_rating'] === NULL) ? $rating : $res['agr_rating'] + $rating;
+        $res['orders_complete'] = ($res['orders_complete'] === NULL) ? 1 : $res['orders_complete'] + 1;
+        $res['rating'] = floor( $res['agr_rating']/5/$res['orders_complete'] );
+//        print_r($res);
+        $this->db->where('id = ', $idWorker);
+        $this->db->update('user', $res);
     }
 }

@@ -24,6 +24,7 @@
             </label>
             <label> Категория
                 <select class="span3" id="subCat">
+                    <option value="0"></option>
                     <?php
                         if(isset($selectedSubcat)) {
                             foreach ($subCats as $subCat) {

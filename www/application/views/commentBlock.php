@@ -19,11 +19,12 @@
         ?>
         </p>
         </div>
-    <div class="resMidPart"><?php echo $comment['date'] . '<br>' . $comment['text'];?></div>
+    <?php $date = new DateTime($comment['date']);?>
+    <div class="resMidPart"><?php echo $date->format('d.m.Yг в H:s:i'). '<br>' . $comment['text'];?></div>
     <input type="hidden" name="comment_id" value="<?php $comment['id']?>"
     <div class="botPart">
-        <div style="display: inline-block; text-align: right">
-            <a href="<?php ?>">ответить</a>
-        </div>
+<!--        <div style="display: inline-block; text-align: right">-->
+<!--            <a href="--><?php //?><!--">ответить</a>-->
+<!--        </div>-->
     </div>
 </div>

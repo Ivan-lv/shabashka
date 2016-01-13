@@ -1,4 +1,4 @@
-<div class="searchResultShell">
+<!--<div class="searchResultShell">-->
 
     <?php
     foreach($masters as $master) {
@@ -28,13 +28,9 @@
 
     ?>
 
-    <div class="pagination pagination-centered">
-        <ul>
-            <li><a href="#">пред.</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">след.</a></li>
-        </ul>
+    <div class="pagination pagination-centered" id="resPagination")">
+    <ul>
+        <?php echo $this->pagination->create_links(); ?>
+    </ul>
     </div>
-</div>
+<!--</div>-->

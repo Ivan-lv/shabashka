@@ -13,7 +13,7 @@ function getSubcat(elem) {
 
 function find(url) {
     if (url === undefined) { // если нажали на кнопку поиска, а не на пагинацию
-        url = '/index.php/Employes/find';
+        url = '/index.php/Employes/findd';
     }
     var selCat    = $('#cat')[0];
     var selSubCat = $('#subCat')[0];
@@ -69,6 +69,11 @@ $(document).ready(function() {
             e.preventDefault();
             find(e.target.getAttribute('href'));
         }
+    });
+
+    $(".resBlock2").click(function(e) {
+//      console.log(this);
+      location.href = '/index.php/employes/card/' + this.getAttribute('data-uid')
     });
 })
 

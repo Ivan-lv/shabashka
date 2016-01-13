@@ -107,3 +107,38 @@ function sendUserData() {
     }
   });
 }
+
+$(document).ready(function() {
+  $('a[data-toggle="modal"]').click(function(e) {
+    $('#complAdvSend').attr('data-advid', e.target.getAttribute('data-advid'));
+
+    var advName = $(e.target).closest('.row').find('.advTitle').html();
+    $('#completeAdv .advName').html('"' + advName + '"');
+  });
+
+  $('#complAdvSend').click(function(e) {
+    var advid = $(e.target).attr('data-advid');
+    var rating = $('#completeAdv input[name="rating-input-1"]:checked').val();
+    if (rating === undefined) {
+      rating = 0;
+    }
+
+    this.innerHTML = 'подождите <img src="/img/loaderMini.png"/>'
+    $.ajax({
+      method: 'post',
+      url: '/index.php/acount/completeAdvert',
+      data: {'advid': advid, 'rating': rating},
+      success: function(response) {
+        console.log(response);
+        if(response != 0) {
+          alert('что-то пошло не так');
+        }
+        window.location.reload();
+      }
+    });
+  });
+
+/*  $('.rating-wrapper input').click(function() {
+    console.log();
+  })*/
+})

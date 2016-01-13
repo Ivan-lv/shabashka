@@ -137,7 +137,6 @@ class Acount extends CI_Controller {
 //        print_r($data);
         $this->user->updateUserCard($data);
         echo 0;
-
     }
 
     public function myadverts() {
@@ -145,7 +144,7 @@ class Acount extends CI_Controller {
         $data = array(
             'advertsList' => $userAdverts,
             'viewName' => 'accountAdverts'
-        );  
+        );
         $this->load->view('common/header');
         $this->load->view('account', $data);
         $this->load->view('common/footer');
@@ -212,6 +211,9 @@ class Acount extends CI_Controller {
             'bids' => $bids,
             'viewName' => 'bidsList'
         );
+/*        echo '<pre>';
+        print_r($data['bids']);
+        echo '</pre>';*/
         $this->load->view('common/header');
         $this->load->view('account', $data);
         $this->load->view('common/footer');
@@ -288,11 +290,21 @@ class Acount extends CI_Controller {
         $this->user->deleteBid($id);
     }
 
-    public function  bindMasterToAdvert($advertId, $uid) {
-        echo 'aid = ' . $advertId . '  uid = ' . $uid;
+    public function  bindMasterToAdvert($advertId = FALSE, $uid = FALSE) {
+//        echo 'aid = ' . $advertId . '  uid = ' . $uid;
+        $advertId = $_POST['advId'];
+        $uid = $_POST['uid'];
         $this->load->model('adverts','adv', TRUE);
         $this->adv->setMasterToAdvert($advertId, $uid);
-        //@TODO: нет проверок выполнения запроса и входных данных
-        redirect('/acount/bids');
+
     }
-} 
+
+    public function completeAdvert() {
+        $rating   = $_POST['rating'];
+        $advertId = $_POST['advid'];
+        $this->load->model('adverts', 'adverts', TRUE);
+        $res = $this->adverts->completeAdvert($advertId);
+        $this->user->setRating($res['idWorker'],$rating);
+        echo $res['response'];
+    }
+}

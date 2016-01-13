@@ -19,7 +19,7 @@ class Employes extends CI_Controller{
     }
 
     public function index() {
-        $masters = $this->users->findUserMaster();
+/*        $masters = $this->users->findUserMaster();
         $categs = $this->catgs->getCategories();
 
         $data = array(
@@ -29,12 +29,14 @@ class Employes extends CI_Controller{
 
         $this->load->view('common/header');
         $this->load->view('findEmpCnt',$data);
-        $this->load->view('common/footer');
+        $this->load->view('common/footer');*/
+        //header('Location: /jobs/last');
+        redirect('/employes/all');
     }
 
     public function find($idCat = FALSE, $idSubcat = FALSE) {
 
-        if($this->input->post('params')) { // åñëè ïðèøëî èç ajax
+        if($this->input->post('params')) { // ÐµÑÐ»Ð¸ Ð¿Ñ€Ð¸ÑˆÐ»Ð¾ Ð¸Ð· ajax
             $params = $this->input->post('params');
             $params = json_decode($params,true);
         } else {
@@ -56,7 +58,7 @@ class Employes extends CI_Controller{
 
         $masters = $this->users->findUserMaster($params['category'],$params['subcategory'],$params['count'],$params['sortBy']);
 
-        //âûáèðàåì êàê áóäåì âûâîäèòü: ëèáî äëÿ ajax ëèáî êàê ïîëíàÿ ñòðàíèöà
+        //Ð²Ñ‹Ð±Ð¸Ñ€Ð°ÐµÐ¼ ÐºÐ°Ðº Ð±ÑƒÐ´ÐµÐ¼ Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ñ‚ÑŒ: Ð»Ð¸Ð±Ð¾ Ð´Ð»Ñ ajax Ð»Ð¸Ð±Ð¾ ÐºÐ°Ðº Ð¿Ð¾Ð»Ð½Ð°Ñ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ð°
         /*if($idCat && $idSubcat) {
             $this->load->view("common/header");
             $data = array(
@@ -70,6 +72,68 @@ class Employes extends CI_Controller{
             $this->load->view("common/footer");
             return;
         }*/
+        $this->load->view('emplResults', array('masters' => $masters));
+        return;
+    }
+
+    public  function all() {
+        $per_page = 5;
+
+        $this->load->library('pagination');
+        $countAll = $this->users->countAllUsers();
+//        echo 'countAllUsers:' .$countAll;
+        $config = $this->paginationInit(site_url('/employes/all'), $countAll, $per_page);
+        $this->pagination->initialize($config);
+        $usersList = $this->users->getTheBestUserMaster($per_page, 'DESC', $this->uri->segment(3));
+        $categs = $this->catgs->getCategories();
+
+        $data = array(
+            'masters' => $usersList,
+            'categs'      => $categs
+        );
+        $this->load->view("common/header");
+        $this->load->view("findEmpCnt", $data);
+        $this->load->view("common/footer");
+    }
+
+    public function findd($idCat = FALSE, $idSubcat = FALSE) {
+        $this->load->library('pagination');
+        if($this->input->post('params')) { // ÐµÑÐ»Ð¸ Ð¿Ñ€Ð¸ÑˆÐ»Ð¾ Ð¸Ð· ajax
+            $params = $this->input->post('params');
+            $params = json_decode($params,true);
+        } else {
+            $params['category']    = $idCat;
+            $params['subcategory'] = $idSubcat;
+            $params['sortBy'] = 'orders_complete';
+            $params['count'] = 5;
+            $categs = $this->catgs->getCategories();
+            $subCats = $this->catgs->getSubCategories($idCat);
+        }
+
+
+        $per_page = $params['count'];
+        $offset = ($idCat && $idSubcat) ? $this->uri->segment(5) : $this->uri->segment(3);
+        $countAll = $this->users->findUserMasterr($params, $offset, true);
+        $this->load->library('pagination');
+        $config = $this->paginationInit(site_url('/Employes/findd'), $countAll, $per_page);
+        $this->pagination->initialize($config);
+
+        $masters = $this->users->findUserMasterr($params, $offset);
+
+        //Ð²Ñ‹Ð±Ð¸Ñ€Ð°ÐµÐ¼ ÐºÐ°Ðº Ð±ÑƒÐ´ÐµÐ¼ Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ñ‚ÑŒ: Ð»Ð¸Ð±Ð¾ Ð´Ð»Ñ ajax Ð»Ð¸Ð±Ð¾ ÐºÐ°Ðº Ð¿Ð¾Ð»Ð½Ð°Ñ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ð°
+        if($idCat && $idSubcat) {
+            $this->load->view("common/header");
+            $data = array(
+                'masters'    => $masters,
+                'categs'         => $categs,
+                'subCats'        => $subCats,
+                'selectedCat'    => $idCat,
+                'selectedSubcat' => $idSubcat
+            );
+            $this->load->view("findEmpCnt", $data);
+            $this->load->view("common/footer");
+            return;
+        }
         $this->load->view('emplResults', array('masters' => $masters));
         return;
     }
@@ -92,10 +156,10 @@ class Employes extends CI_Controller{
         $config['first_tag_close'] = $config['last_tag_close']= $config['next_tag_close']= $config['prev_tag_close'] = $config['num_tag_close'] = '</li>';
         $config['cur_tag_open'] = '<li class="active"><a href="#">';
         $config['cur_tag_close'] = "</a></li>";
-        $config['first_link'] = 'Â íà÷àëî';
-        $config['last_link'] = 'Â êîíåö';
-        $config['next_link'] = '»';
-        $config['prev_link'] = '«';
+        $config['first_link'] = 'Ð’ Ð½Ð°Ñ‡Ð°Ð»Ð¾';
+        $config['last_link'] = 'Ð’ ÐºÐ¾Ð½ÐµÑ†';
+        $config['next_link'] = 'Â»';
+        $config['prev_link'] = 'Â«';
 
         return $config;
     }
@@ -114,18 +178,18 @@ class Employes extends CI_Controller{
         $this->load->view('findEmpCnt',$data);
         $this->load->view('common/footer');
     }
-
+    */
     public function card($id = 0) {
 
         if($id < 1) {
             return;
         }
-        $data = $this->user->getMasterCard($id);
+        $data = $this->users->getMasterCard($id);
 //        echo '<pre>';
 //        print_r($data);
 //        echo '</pre>';
         $this->load->view('common/header');
         $this->load->view('masterCard',$data);
         $this->load->view('common/footer');
-    }*/
+    }
 } 

@@ -8,7 +8,7 @@
                         echo '<li><a href="'. site_url('acount/myadverts') .'">Мои объявления</a></li>';
                         echo '<li><a href="'. site_url('acount/addEditAdvert') .'">Добавить объявление</a></li>';
                         echo '<li><a href="'. site_url('acount/bids') .'">Заявки</a></li>';
-                        echo '<li><a href="'. site_url('acount/comments') .'">Комментарии</a></li>';
+//                        echo '<li><a href="'. site_url('acount/comments') .'">Комментарии</a></li>';
                         echo '<li><a href="'. site_url('acount/editProfile') .'">Ред. профиль</a></li>';
                         echo '<li><a href="'. site_url('acount/mycard') .'">Моя карточка</a></li>';
                         echo '<li><a href="'. site_url('acount/completeorders') .'">Выполненные заказы</a></li>';
@@ -16,7 +16,7 @@
                         echo '<li><a href="'. site_url('acount/myadverts') .'">Мои объявления</a></li>';
                         echo '<li><a href="'. site_url('acount/addEditAdvert') .'">Добавить объявление</a></li>';
                         echo '<li><a href="'. site_url('acount/bids') .'">Заявки</a></li>';
-                        echo '<li><a href="'. site_url('acount/comments') .'">Комментарии</a></li>';
+//                        echo '<li><a href="'. site_url('acount/comments') .'">Комментарии</a></li>';
                         echo '<li><a href="'. site_url('acount/editProfile') .'">Ред. профиль</a></li>';
                     } else {
                         echo '<li><a href="'. site_url('acount/editProfile') .'">Ред. профиль</a></li>';
